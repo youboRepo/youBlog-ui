@@ -1,35 +1,33 @@
 <template>
-  <div class="login" :style="'background-image:url(' + Background + ');'">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">供应商管理系统</h3>
-      <el-tag v-if="error" type="danger" class="w100p f14 h40 lh40 mb20">{{ error }}</el-tag>
-      <el-form-item prop="username">
-        <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="用户名">
-          <svg-icon slot="prefix" icon-class="user" />
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="password">
-        <el-input v-model="loginForm.password" type="password" show-password auto-complete="off" placeholder="密码">
-          <svg-icon slot="prefix" icon-class="password" />
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="kaptcha">
-        <el-input v-model="loginForm.kaptcha" auto-complete="off" placeholder="验证码" style="width: 190px">
-          <svg-icon slot="prefix" icon-class="photo" />
-        </el-input>
-        <div class="login-code">
-          <img :src="kaptchaUrl" @click="getKaptcha" title="点击刷新验证码" />
-        </div>
-      </el-form-item>
-      <el-checkbox v-model="loginForm.rememberMe" style="margin: 0 0 25px 0">记住我</el-checkbox>
-      <el-form-item style="width: 100%">
-        <el-button :loading="loading" size="medium" type="primary" style="width: 100%" @click.native.prevent="handleLogin">
-          <span v-if="!loading">登 录</span>
-          <span v-else>登 录 中...</span>
-        </el-button>
-      </el-form-item>
-    </el-form>
-  </div>
+    <div class="top">
+        <div class="box">
+		<form autocomplete="off">
+			<h2>Sign in</h2>
+			<div class="inputBox">
+				<input v-model="loginForm.username" type="text" required="required">
+				<span>UserName</span>
+				<i></i>
+			</div>
+			<div class="inputBox">
+				<input v-model="loginForm.password" type="password" required="required">
+				<span>Password</span>
+				<i></i>
+			</div>
+            <div>
+                
+                <input v-model="loginForm.kaptcha" type="text" required="required">
+                <div class="login-code">
+                    <img :src="kaptchaUrl" @click="getKaptcha" title="点击刷新验证码" />
+                </div>
+			</div>
+			<div class="links">
+				<a href="#">Forgot Password ?</a>
+				<a href="#">Signup</a>
+			</div>
+			<input type="submit" value="Login">
+		</form>
+	</div>
+    </div>
 </template>
 
 <script>
@@ -132,49 +130,180 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
-.login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-size: cover;
-}
-.title {
-  margin: 0 auto 30px auto;
-  text-align: center;
-  color: #707070;
+<style>
+/* 引入需要的字体 */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
 }
 
-.login-form {
-  border-radius: 6px;
-  background: #ffffff;
-  width: 385px;
-  padding: 25px 25px 5px 25px;
-  .el-input {
-    height: 38px;
-    input {
-      height: 38px;
-    }
-  }
-  .input-icon {
-    height: 39px;
-    width: 14px;
-    margin-left: 2px;
-  }
+body {
+	display: flex;
+	justify-content: center !important;
+	align-items: center !important;
+	min-height: 100vh;
+	flex-direction: column;
+	background: #23242a;
 }
-.login-tip {
-  font-size: 13px;
-  text-align: center;
-  color: #bfbfbf;
+
+.box {
+    top: 50%;
+    margin-top: 200px;
+	position: relative;
+	width: 380px;
+	height: 480px;
+	background: #1c1c1c;
+	border-radius: 8px;
+	overflow: hidden;
 }
-.login-code {
-  width: 33%;
-  display: inline-block;
-  height: 38px;
-  img {
-    cursor: pointer;
-    vertical-align: middle;
-  }
+
+.box::before {
+	content: '';
+	z-index: 1;
+	position: absolute;
+	top: -50%;
+	left: -50%;
+	width: 380px;
+	height: 420px;
+	transform-origin: bottom right;
+	background: linear-gradient(0deg, transparent, #45f3ff, #45f3ff);
+	animation: animate 6s linear infinite;
+}
+
+.box::after {
+	content: '';
+	z-index: 1;
+	position: absolute;
+	top: -50%;
+	left: -50%;
+	width: 380px;
+	height: 420px;
+	transform-origin: bottom right;
+	background: linear-gradient(0deg, transparent, #45f3ff, #45f3ff);
+	animation: animate 6s linear infinite;
+	animation-delay: -3s;
+}
+
+@keyframes animate {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+form {
+	position: absolute;
+	inset: 2px;
+	background: #28292d;
+	padding: 50px 40px;
+	border-radius: 8px;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+}
+
+h2 {
+	color: #45f3ff;
+	font-weight: 500;
+	text-align: center;
+	letter-spacing: 0.1em;
+}
+
+.inputBox {
+	position: relative;
+	width: 300px;
+	margin-top: 35px;
+}
+
+.inputBox input {
+	position: relative;
+	width: 100%;
+	padding: 20px 10px 10px;
+	background: transparent;
+	outline: none;
+	box-shadow: none;
+	border: none;
+	color: #23242a;
+	font-size: 1em;
+	letter-spacing: 0.05em;
+	transition: 0.5s;
+	z-index: 10;
+}
+
+.inputBox span {
+	position: absolute;
+	left: 0;
+	padding: 20px 0px 10px;
+	pointer-events: none;
+	font-size: 1em;
+	color: #8f8f8f;
+	letter-spacing: 0.05em;
+	transition: 0.5s;
+}
+
+.inputBox input:valid~span,
+.inputBox input:focus~span {
+	color: #45f3ff;
+	transform: translateX(0px) translateY(-34px);
+	font-size: 0.75em;
+}
+
+.inputBox i {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 2px;
+	background: #45f3ff;
+	border-radius: 4px;
+	overflow: hidden;
+	transition: 0.5s;
+	pointer-events: none;
+	z-index: 9;
+}
+
+.inputBox input:valid~i,
+.inputBox input:focus~i {
+	height: 44px;
+}
+
+.links {
+	display: flex;
+	justify-content: space-between;
+}
+
+.links a {
+	margin: 10px 0;
+	font-size: 0.75em;
+	color: #8f8f8f;
+	text-decoration: beige;
+}
+
+.links a:hover,
+.links a:nth-child(2) {
+	color: #45f3ff;
+}
+
+input[type="submit"] {
+	border: none;
+	outline: none;
+	padding: 11px 25px;
+	background: #45f3ff;
+	cursor: pointer;
+	border-radius: 4px;
+	font-weight: 600;
+	width: 100px;
+	margin-top: 10px;
+}
+
+input[type="submit"]:active {
+	opacity: 0.8;
 }
 </style>
