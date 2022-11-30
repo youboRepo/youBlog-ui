@@ -13,18 +13,19 @@
 				<span>Password</span>
 				<i></i>
 			</div>
-            <div>
-                
-                <input v-model="loginForm.kaptcha" type="text" required="required">
-                <div class="login-code">
-                    <img :src="kaptchaUrl" @click="getKaptcha" title="点击刷新验证码" />
-                </div>
+			<div class="kaptchaBox">
+				<input v-model="loginForm.kaptcha" type="text" required="required">
+				<span>kaptcha</span>
+				<i></i>
 			</div>
 			<div class="links">
 				<a href="#">Forgot Password ?</a>
 				<a href="#">Signup</a>
 			</div>
-			<input type="submit" value="Login">
+			<div>
+				<input type="submit" value="Login">
+				<img :src="kaptchaUrl" @click="getKaptcha" title="点击刷新验证码" />
+			</div>
 		</form>
 	</div>
     </div>
